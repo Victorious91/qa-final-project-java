@@ -1,0 +1,4 @@
+TEST: Verificare Todo API
+Trimite requestul get la adresa: https://jsonplaceholder.typicode.com/todos/1
+	Verifica daca status 200 este OK
+	Verifica daca raspunsul contine cheia "Title"
