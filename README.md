@@ -2,7 +2,8 @@
 
 # QA Final Project - Java
 
-![Java CI/CD Pipeline](https://github.com)
+[![Java CI/CD Pipeline](https://github.com/Victorious91/qa-final-project-java/actions/workflows/ci.yaml/badge.svg)](https://github.com/Victorious91/qa-final-project-java/actions/workflows/ci.yaml)
+
 
 Acest proiect reprezintă examenul final de absolvire (zborul solo) în cadrul școlii de testare și DevOps. 
 Proiectul configurează o structură standard de aplicație Java/Maven, include planificarea unui test API și implementează un pipeline automatizat de integrare continuă 
