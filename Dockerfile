@@ -6,7 +6,7 @@ WORKDIR /app
 
 # Copiază fișierul pom.xml pentru a descărca dependențele (optimizare cache)
 COPY pom.xml .
-RUN mven dependency:go-offline -B
+RUN mvn dependency:go-offline -B
 
 # Copiază codul sursă al proiectului
 COPY src ./src
@@ -15,7 +15,7 @@ COPY src ./src
 RUN mvn clean package -DskipTests
 
 # 2. Etapa de rulare (Run Stage) - pentru o imagine finală mai ușoară
-FROM openjdk:17-jdk-slim
+FROM eclipse-temurin:17-jre-jammy
 
 WORKDIR /app
 
