@@ -1,6 +1,6 @@
 import java.util.Scanner;
 
-public class Main {
+public class UsernameValidator {
     public static void main(String[] args) {
 
         // Folosesc un obiect scanner pentru a citi de la tastatura:
