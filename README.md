@@ -23,14 +23,27 @@ Proiectul integrează bunele practici de DevOps și QA:
 
 ## 🧪 Cum se rulează testele local
 
-Deoarece logica testului API este momentan documentată în pseudocod, comanda nativă Maven va rula un set de teste gol, dar valid:
+Testul API este documentat în pseudocod (`ApiTest.txt`). Testele de UI sunt automatizate cu **BDD**
+(Cucumber + JUnit 4 + Selenide) pe aplicatia demo `https://www.saucedemo.com`
+(site public creat pentru exersarea automatizarii, fara captcha).
 
-1. Asigură-te că ai Java 17 și Maven instalate pe mașina locală.
+1. Asigură-te că ai Java 17 și Maven instalate pe mașina locală (plus Firefox sau Chrome).
 2. Deschide terminalul în rădăcina proiectului și execută:
    ```bash
-   mvn test
+   mvn clean test
    ```
-3. Testul va returna un rezultat de tip `SUCCESS` deoarece structura este validă și nu există erori de compilare.
+3. Parametri opționali (în PowerShell se pun între ghilimele): `"-Dbrowser=chrome"`, `"-Dheadless=true"`,
+   `"-DbaseUrl=..."`, `"-Dsaucedemo.user=..."`, `"-Dsaucedemo.password=..."`.
+   Implicit se folosește `standard_user` / `secret_sauce` (credențiale publice afișate pe pagina de login).
+4. Raportul HTML se generează în `target/cucumber-reports/report.html`.
+
+### Structura testelor BDD (`src/test`)
+* `resources/features` – fișierele Gherkin: `Login`, `Cart`, `Product`, `Checkout`
+  (include `Scenario Outline` și `Data Table`).
+* `java/com/Victorious91/tests/pages` – Page Object Model (toți locatorii sunt aici).
+* `java/com/Victorious91/tests/stepdefinitions` – pașii Cucumber și `Hooks` (setup/teardown).
+* `java/com/Victorious91/tests/runners` – `TestRunner` (JUnit 4) cu raport HTML.
+* `java/com/Victorious91/tests/config` – `TestConfig` (URL, browser, credențiale).
 
 ---
 
@@ -54,6 +67,6 @@ docker run -p 8080:8080 qa-final-project-java
 
 ## 🛠️ Pipeline-ul CI/CD
 
-La fiecare `push` pe branch-ul `main`, GitHub Actions va lansa automat fluxul de lucru definit în `.github/workflows/ci.yml`:
-1. **Job-ul de Testare:** Rulează `mvn test` pe o mașină virtuală Linux.
+La fiecare `push` pe branch-ul `main`, GitHub Actions va lansa automat fluxul de lucru definit în `.github/workflows/ci.yaml`:
+1. **Job-ul de Testare:** Rulează `mvn test` (teste BDD headless) pe o mașină virtuală Linux și publică raportul Cucumber ca artefact.
 2. **Job-ul de Docker:** Dacă testele trec cu succes, se autentifică pe Docker Hub, construiește imaginea finală și o publică cu tag-urile `latest` și ID-ul unic al commit-ului (`SHA`).

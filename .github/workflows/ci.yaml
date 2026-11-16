@@ -20,8 +20,15 @@ jobs:
           distribution: 'temurin'
           cache: 'maven'
 
-      - name: Executare teste Maven
-        run: mvn test
+      - name: Executare teste Maven (BDD ruleaza headless in CI)
+        run: mvn test -Dheadless=true -Dbrowser=chrome
+
+      - name: Publicare raport Cucumber HTML
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: cucumber-report
+          path: target/cucumber-reports/
 
   # 2. Job-ul de Build si Push Docker (ruleaza doar daca testul a trecut)
   build-and-push:
